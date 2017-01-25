@@ -1,33 +1,16 @@
-const Backbone = require('backbone')
-const ACTIONS = require('./actions.js')
 
-const STORE = {
+import {createStore, compose} from 'redux';
+import {syncHistoryWithStore} from 'react-router-redux';
+import {browserHistory} from 'react-router';
+import rootReducer from './reducers/index';
 
-   data: {
-      "schools": [],
-      allStudents: [],
-      currentUser: {},
-      selectedStudent: {},
-      searchField: "/students",
-      userType: "",
-      showDrop: false,
-      showSearch: false,
 
-   },
-
-   setStore: function(storeProp, payload){
-      this.data[storeProp] = payload
-      Backbone.Events.trigger('storeChange')
-   },
-
-   getStoreData: function(){
-      return this.data
-   },
-
-   onChange: function(someFunc){
-      Backbone.Events.on('storeChange', someFunc)
-   }
-
+const defaultState = {
+   schools: "all Schools"
 }
 
-module.exports = STORE
+
+
+const store = createStore(rootReducer, defaultState,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);

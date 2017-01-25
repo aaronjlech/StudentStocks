@@ -1,55 +1,18 @@
-const ReactDOM = require('react-dom');
-const React = require('react')
-const Backbone = require('backbone');
-const ACTIONS = require('./actions.js')
-const STORE = require('./store.js')
-const {AppView} = require('./view-controller.js')
+import React from 'react';
+import {render} from 'react-dom';
+import { Router, Route, IndexRoute, hashHistory} from 'react-router';
+import { Provider} from 'react-redux';
+import Home from './components/home'
+import Login from "./components/Login"
+console.log(Home)
 
-const AppRouter = Backbone.Router.extend({
+const router = (
+      <Router history={hashHistory}>
+         <Route path='/' component={Home}>
+         </Route>
+         <Route path="/here" component={Login}></Route>
 
-   routes: {
-      'login/:type': "showLogin",
-      'about': "showAbout",
-      'signup/:type': "showSignup",
-      'dash/:user': "showDash",
-      '': "showHome"
+      </Router>
+)
 
-   },
-   showHome: function(){
-
-      ReactDOM.render(<AppView currentView="home"/>, document.querySelector("#app-container"))
-   },
-
-   showAbout: function(){
-
-      ReactDOM.render(<AppView currentView="about"/>, document.querySelector("#app-container"))
-   },
-
-   showSignup: function(type){
-      let crntView = "signup/"+ type;
-
-      ReactDOM.render(<AppView currentView={crntView}/>, document.querySelector("#app-container"))
-   },
-
-   showLogin: function(type){
-      let crntView = "login/" + type;
-
-      ReactDOM.render(<AppView currentView={crntView}/>, document.querySelector("#app-container"))
-   },
-
-   showDash: function(user){
-      let crntView = "dash/" + user;
-      ReactDOM.render(<AppView currentView={crntView}/>, document.querySelector("#app-container"))
-
-   },
-
-   initialize: function(){
-
-      Backbone.history.start()
-   }
-
-})
-
-
-
-   new AppRouter()
+         render(router, document.getElementById('app-container'))
